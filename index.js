@@ -2,7 +2,7 @@
 
 const express =require("express");
 const app=express();
-const port=3000;
+const port=3001;
 const Data_file =require("./movie_data/data.json");
 
 app.get("/favorite", Pagehandle);
@@ -12,18 +12,16 @@ function  Pagehandle(req,res){
 
 app.get("/", Homehandle);
 function  Homehandle(req,res){
-    let result=[];
-
-    Data_file.data.forEach(element => {
-        let newData= new JsonData(
-            element.title,
-            element.poster_path,
-            element.overview
+    
+    
+   let newData= new JsonData(
+    Data_file.title,
+    Data_file.poster_path,
+    Data_file.overview
  
         ) 
-        result.push(newData);
-     })
-     res.json(result);
+     
+     res.json(newData);
      
 
 } 
