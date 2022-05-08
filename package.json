@@ -1,7 +1,7 @@
 {
   "name": "movies-library",
   "version": "1.0.0",
-  "description": "",
+  "description": "### Project :  Movies-Library #1",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -19,7 +19,9 @@
   "homepage": "https://github.com/MalakOdtalla/Movies-Library#readme",
   "dependencies": {
     "axios": "^0.27.2",
+    "cors": "^2.8.5",
     "dotenv": "^16.0.0",
-    "express": "^4.18.0"
+    "express": "^4.18.1",
+    "nodemon": "^2.0.16"
   }
 }
