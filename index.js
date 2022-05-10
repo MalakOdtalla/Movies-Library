@@ -10,16 +10,16 @@ require("dotenv").config();
 const app=express();
 const bodyParser=require('body-parser')
 app.use(cors());
-const port=3000;
+const port=process.env.PORT ||3001;
 
 
-app.use(bodyParser.urlencoded({extended:false}));
-app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));// to support URL-encoded bodies
+app.use(bodyParser.json());// to support JSON-encoded bodies
 
 
 const { Client }=require('pg');
 const { handle } = require("express/lib/application");
-const client =new Client(process.env.DB_url);
+const client =new Client(process.env.DB_URL);
 
 app.get("/", Homehandle);
 app.get("/favorite", Pagehandle);
@@ -29,19 +29,20 @@ app.get("/search", searchMovieshandler);
 app.post('/postMovies', postHandler);
 app.get('/getMovies', getHandler);
 app.put('/updateMovies/:MovieId', handleUpdateMovies);
-app.put('/deleteMovies/:MovieId', handleDeleteMovies);
+app.delete('/deleteMovies/:MovieId', handleDeleteMovies);
+app.get('/getMovie/:MovieId', handleGetMovies );
 
 
 
 
 
-app.get('/params/:name',handleParams);
+app.get('/params/:id/:name',handleParams);
 
 function postHandler(req,res){
     console.log(req.body);
-    let{title,date,description}=req.body;
-    let sql=`INSERT INTO movies(title,date,description) VALUES($1,$2,$3) RETURNING *;`
-    let values=[title,date,description];
+    let{title,date,comment}=req.body;
+    let sql=`INSERT INTO movies(title,date,comment) VALUES($1,$2,$3) RETURNING *;`
+    let values=[title,date,comment];
 
     client.query(sql, values).then((result)=>{
         console.log(result);
@@ -140,15 +141,19 @@ function  searchMovieshandler(req,res){
 }
 
 function handleParams(req,res){
+    console.log(req.params.id);
     console.log(req.params.name);
     res.send("ok")
 }
 
 function handleUpdateMovies(req,res){
     let id=req.params.MovieId;
-    let title=req.body.title;
-    let sql=`  UPDATE movies SET title=$1 WHERE id=${id} RETURNING *;`;
-    let values =[title];
+    let comment=req.body.comment;
+
+
+    let sql=`UPDATE movies SET comment=$1 WHERE id=${id} RETURNING ;*`;
+    let values =[comment];
+
     client.query(sql,values).then((result)=>{
         console.log(result.rows[0]); 
     res.send("record updated");   }
@@ -160,13 +165,25 @@ function handleUpdateMovies(req,res){
 
 function handleDeleteMovies(req,res){
     let id=req.params.MovieId;
-    let sql=`  DELETE FROM movies WHERE id=${id} RETURNING *;`;
+    let sql=`DELETE FROM movies WHERE id=${id} RETURNING *`;
     client.query(sql).then((result)=>{
-        console.log(result.rows[0]); 
-    res.send("record deleted");   }
-    ).catch()  
+        console.log(result.rows); 
+        res.send("record deleted");   }
+        ).catch()
+     } 
+
+function handleGetMovies(req,res){
+    let id=req.params.MovieId;
+    let sql=`SELECT * FROM movies WHERE id=${id} RETURNING *`;
+    client.query(sql).then((result)=>{
+        console.log(result.rows); 
+         res.json(result.rows);
+    }
+    )
+
 }
 
+//connect databse with the server
 client.connect().then(() =>{
     app.listen(port, ()=> {
         console.log("Server is running on port ${port}");
