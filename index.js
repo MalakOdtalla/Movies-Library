@@ -19,7 +19,15 @@ app.use(bodyParser.json());// to support JSON-encoded bodies
 
 const { Client }=require('pg');
 const { handle } = require("express/lib/application");
-const client =new Client(process.env.DATABASE_URL);
+//const client =new Client(process.env.DATABASE_URL);
+const client =new Client({
+      connectionString:process.env.DATABASE_URL,
+      ssl:{
+rejectUnauthorized:false
+      }
+
+      });
+
 
 app.get("/", Homehandle);
 app.get("/favorite", Pagehandle);
