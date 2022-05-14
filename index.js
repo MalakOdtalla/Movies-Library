@@ -182,7 +182,7 @@ function handleDeleteMovies(req,res){
 
 function handleGetMovies(req,res){
     let id=req.params.MovieId;
-    let sql=`SELECT * FROM movies WHERE id=${id} RETURNING *`;
+    let sql=`SELECT * FROM movies WHERE id=${id} RETURNING *;`;
     client.query(sql).then((result)=>{
         console.log(result.rows); 
          res.json(result.rows);
