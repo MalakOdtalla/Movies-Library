@@ -100,7 +100,7 @@ function JsonData(title,poster_path,overview){
 
 
 function  movieshandler(req,res){
-  axios.get("https://api.themoviedb.org/3/trending/all/week?api_key=2f8a538a539278f73d836e14ebd285a5")
+  axios.get(`https://api.themoviedb.org/3/trending/all/week?api_key=${process.env.APIKEY}`)
   .then(result=>{
       //console.log(result.data.results);
       //res.send("data from API")
@@ -136,7 +136,7 @@ function Trend(id,title,release_date,poster_path,overview){
 
 function  searchMovieshandler(req,res){
     let movieName=req.query.name;
-    let url=`https://api.themoviedb.org/3/search/movie?api_key=2f8a538a539278f73d836e14ebd285a5&name=${movieName}`;
+    let url=`https://api.themoviedb.org/3/search/movie?api_key=${process.env.APIKEY}&name=${movieName}`;
     axios.get(url)
     .then((result) => {
         console.log(result.data.results);
