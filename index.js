@@ -19,18 +19,18 @@ app.use(bodyParser.json());// to support JSON-encoded bodies
 
 const { Client }=require('pg');
 const { handle } = require("express/lib/application");
-//const client =new Client(process.env.DATABASE_URL);
-const client =new Client({
+const client =new Client(process.env.DATABASE_URL);
+/* const client =new Client({
       connectionString:process.env.DATABASE_URL,
       ssl:{
 rejectUnauthorized:false
       }
 
-      });
+      }); */
 
 
-app.get("/", Homehandle);
-app.get("/favorite", Pagehandle);
+app.get("/", Pagehandle);
+app.get("/favorite",Homehandle );
 app.get("/trending", movieshandler);
 app.get("/search", searchMovieshandler);
 
@@ -70,7 +70,7 @@ function getHandler(req,res){
 
 
 function  Pagehandle(req,res){
-    res.send("Welcome to Favorite Page ");
+    res.send("Welcome to Movies-Library Page ");
 } 
 
 
@@ -182,7 +182,7 @@ function handleDeleteMovies(req,res){
 
 function handleGetMovies(req,res){
     let id=req.params.MovieId;
-    let sql=`SELECT * FROM movies WHERE id=${id} RETURNING *`;
+    let sql=`SELECT * FROM movies WHERE id=${id} RETURNING *;`;
     client.query(sql).then((result)=>{
         console.log(result.rows); 
          res.json(result.rows);
