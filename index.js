@@ -159,7 +159,7 @@ function handleUpdateMovies(req,res){
     let comment=req.body.comment;
 
 
-    let sql=`UPDATE movies SET comment=$1 WHERE id=${id} RETURNING ;*`;
+    let sql=`UPDATE movies SET comment=$1 WHERE id=${id} RETURNING *`;
     let values =[comment];
 
     client.query(sql,values).then((result)=>{
@@ -182,7 +182,7 @@ function handleDeleteMovies(req,res){
 
 function handleGetMovies(req,res){
     let id=req.params.MovieId;
-    let sql=`SELECT * FROM movies WHERE id=${id} RETURNING *;`;
+    let sql=`SELECT * FROM movies WHERE id=${id};`;
     client.query(sql).then((result)=>{
         console.log(result.rows); 
          res.json(result.rows);
