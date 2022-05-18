@@ -48,17 +48,55 @@ function Trend(id,title,release_date,poster_path,overview){
 app.get("/search", searchMovieshandler);
 
 function  searchMovieshandler(req,res){
-    let movieName=req.query.name;
-    let url=`https://api.themoviedb.org/3/search/movie?api_key=2f8a538a539278f73d836e14ebd285a5&name=${movieName}`;
+    let movieName=req.query.title;
+   // console.log(movieName)
+    let url=`https://api.themoviedb.org/3/search/movie?query=${movieName}&api_key=2f8a538a539278f73d836e14ebd285a5`;
     axios.get(url)
     .then((result) => {
-        console.log(result.data.results);
+        res.json(result.data.results);
 
     })
     .catch((error => {
         console.log(error);
         res.send("error in data")
     }));
+}
+
+
+app.get("/certification", certificatHandler);
+function certificatHandler(req,res){
+  
+    // 
+     let url="https://api.themoviedb.org/3/certification/movie/list?api_key=37ddc7081e348bf246a42f3be2b3dfd0&language=en-US";
+     axios.get(url)
+     .then((result) => {
+        console.log(result)
+        res.json(result.data.results);
+ 
+     })
+     .catch((error => {
+         console.log(error);
+         res.send("error in data")
+     }));
+
+}
+
+app.get("/watchProviders", providersHandler);
+function providersHandler(req,res){
+  
+    // 
+     let url="https://api.themoviedb.org/3/watch/providers/regions?api_key=37ddc7081e348bf246a42f3be2b3dfd0&language=en-US";
+     axios.get(url)
+     .then((result) => {
+        console.log(result)
+        res.json(result.data.results);
+ 
+     })
+     .catch((error => {
+         console.log(error);
+         res.send("error in data")
+     }));
+
 }
 
 
