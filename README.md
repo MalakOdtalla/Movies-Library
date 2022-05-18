@@ -29,6 +29,8 @@ The steps that must follow to built this App:
 3- create fun to listening to any request.<br>
 4- to reach a json data we need to create an array of objects by creating constructor.<br>
 5- create routes(endpoints) to establish a connection between user and server.<br>
+6- now in this phase we can start sending and recieving data from the database using RESTful API-GRUD(Great,Read,Update,Delete), so here we bulit a database with one table, and applied the greate and read process on the database, which mean that when a client send a requset to the server, the server can send the respose with the data from the database, or it can apply or save it to the DB. 
+
 
 *note* -- To run the server from terminal type (node.index.js).
 
@@ -40,6 +42,8 @@ The steps that must follow to built this App:
 Project features consist of:
 - Home route; that when hit it, the server response and gives the data we need from json file.
 - Favirout route; which gives the welcoming massege as response.  
+- postMovies route; this route help in add rows to database.
+- getMovies route; this route shows the list of movies that inside the database.  
 
 
 
