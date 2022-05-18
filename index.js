@@ -20,14 +20,13 @@ app.use(bodyParser.json());// to support JSON-encoded bodies
 const { Client }=require('pg');
 const { handle } = require("express/lib/application");
 const client =new Client(process.env.DATABASE_URL);
-/* const client =new Client({
+/*  const client =new Client({
       connectionString:process.env.DATABASE_URL,
       ssl:{
 rejectUnauthorized:false
       }
 
-      }); */
-
+      });  */
 
 app.get("/", Pagehandle);
 app.get("/favorite",Homehandle );
@@ -55,9 +54,9 @@ function postHandler(req,res){
     client.query(sql, values).then((result)=>{
         console.log(result);
       //  return res.send("added to DB");
-      return res.status(201).json(result.rows);
+      return res.status(201).json(result.rows[0]);
 
-    })
+    }).catch()
 }
 
 function getHandler(req,res){
