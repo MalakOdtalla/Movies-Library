@@ -4,6 +4,8 @@ const express =require("express");
 const app=express();
 const port=3001;
 const Data_file =require("./movie_data/data.json");
+app.use('*',notfoundHandler);
+app.use(errorHandler);
 
 app.get("/favorite", Pagehandle);
 function  Pagehandle(req,res){
@@ -34,8 +36,21 @@ function JsonData(title,poster_path,overview){
 
 }
 
-
+function errorHandler(error,req,res){
+    const err={
+        status:500,
+        message:error
+    }
+    res.status(500).send("Sorry, something went wrong");
+}
+function notfoundHandler(request,response){
+    response.status(404).send("!!!");
+}
 
 app.listen(port, ()=> {
     console.log("Hello");
 });
+
+
+
+
